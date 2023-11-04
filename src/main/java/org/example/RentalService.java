@@ -18,7 +18,7 @@ public class RentalService {
         return null;
     }
 
-    public boolean isAvalable(int vin) {
+    public boolean carExisit(int vin) {
         return CarStorage.getInstance().getCarStorageList().stream().anyMatch(v -> v.getVIN() == vin);
     }
 
@@ -28,12 +28,11 @@ public class RentalService {
         Car carPrice = CarStorage.getInstance().getCarStorageList().stream()
                 .filter(car -> car.getVIN() == vin)
                 .findAny()
-                .orElse(null);
+                .orElseThrow();
 
-        assert carPrice != null;
+            price *= daysBetween * carPrice.carType.getStandardValue();
+            price = (double) Math.round(price * 100.0) / 100.0;
 
-        price *= daysBetween * carPrice.carType.getStandardValue();
-        price = (double) Math.round(price * 100.0) / 100.0;
         return price;
     }
 }

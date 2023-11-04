@@ -20,8 +20,8 @@ public class Main {
         rentStorage.addRent(rentalService.createRent(LocalDate.parse("2023-10-16"),LocalDate.parse("2023-11-16"),car1,new User(32)));
         rentStorage.printRentList();
         rentStorage.addRent(rentalService.createRent(LocalDate.parse("2023-10-16"),LocalDate.parse("2023-11-16"),car1,new User(24)));
-        rentalService.isAvalable(12345);
-        rentalService.isAvalable(323523423);
+        rentalService.carExisit(12345);
+        rentalService.carExisit(323523423);
         rentalService.estimatePrice(23445,LocalDate.parse("2023-10-16"),LocalDate.parse("2023-11-16"));
     }
 
