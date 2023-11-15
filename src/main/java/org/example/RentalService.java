@@ -2,18 +2,19 @@ package org.example;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 public class RentalService {
 
     int baseOneDayRent = 100;
 
     public CarRentInfo createRent(LocalDate dateFrom, LocalDate dateTo, Car car, User user) {
-        if (!car.isRented(false)) {
+        if (!car.isRented(false) && dateFrom.isBefore(dateTo)) {
             car.setRented(true);
             car.setTemporaryOwner(user);
             return new CarRentInfo(car.getTemporaryOwner(), car.getVIN(), dateFrom, dateTo);
         } else {
-            System.out.println("Samochod juz jest wypozyczony");
+            System.out.println("Błąd przy tworzeniu rezerwacji");
         }
         return null;
     }

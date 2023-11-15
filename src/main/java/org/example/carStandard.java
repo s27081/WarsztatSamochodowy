@@ -10,7 +10,7 @@ public enum carStandard{
                 this.standardValue = standardValue;
         }
 
-        private double standardValue;
+        private final double standardValue;
 
         public double getStandardValue(){
                 return this.standardValue;
