@@ -2,7 +2,6 @@ package org.example;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 
 public class RentalService {
 
@@ -19,7 +18,7 @@ public class RentalService {
         return null;
     }
 
-    public boolean carExisit(int vin) {
+    public boolean carExist(int vin) {
         return CarStorage.getInstance().getCarStorageList().stream().anyMatch(v -> v.getVIN() == vin);
     }
 

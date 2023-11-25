@@ -8,7 +8,7 @@ public class CarRentInfo {
     private LocalDate dateNow;
     private LocalDate dateTo;
 
-    public CarRentInfo(User user, int VIN, LocalDate dateNow, LocalDate dateTo) {
+    public CarRentInfo(User user, Integer VIN, LocalDate dateNow, LocalDate dateTo) {
         this.user = user;
         this.VIN = VIN;
         this.dateNow = dateNow;

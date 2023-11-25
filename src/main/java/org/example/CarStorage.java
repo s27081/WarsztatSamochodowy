@@ -8,7 +8,7 @@ public class CarStorage {
     private static CarStorage instance;
     private List<Car> carStorageList = new ArrayList<>();
 
-    private CarStorage(){
+    CarStorage(){
         addCar(new Car(98765,"Audi","RS3", carStandard.A,null, false));
     }
 
