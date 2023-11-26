@@ -30,9 +30,8 @@ class RentalServiceTest {
         //GIVEN
         int vin1 = car1.getVIN();
 
-        CarStorage.getInstance().addCar(car1);
-
         //WHEN
+        CarStorage.getInstance().addCar(car1);
         boolean v1 = rentalService.carExist(vin1);
 
         //THEN
