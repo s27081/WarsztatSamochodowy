@@ -1,19 +1,14 @@
 package org.example;
 
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
-
+@Component
 public class RentStorage {
 
-    public static RentStorage instance;
-    List<CarRentInfo> rentList = new ArrayList<>();
+    static List<CarRentInfo> rentList = new ArrayList<>();
 
-    public static RentStorage getInstance(){
-        if(instance == null){
-            instance = new RentStorage();
-        }
-        return instance;
-    }
     void addRent(CarRentInfo rent){
         rentList.add(rent);
     }

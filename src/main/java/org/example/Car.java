@@ -6,17 +6,15 @@ public class Car {
     public int VIN;
     public String brand;
     public String model;
-    public boolean isRented;
     public User temporaryOwner;
     public carStandard carType;
 
-    Car(int VIN, String brand, String model, carStandard carStandard , User temporaryOwner, boolean isRented){
+    Car(int VIN, String brand, String model, carStandard carStandard , User temporaryOwner){
         this.VIN = VIN;
         this.brand = brand;
         this.model = model;
         this.temporaryOwner = temporaryOwner;
         this.carType = carStandard;
-        this.isRented = isRented;
     }
 
 
@@ -52,11 +50,4 @@ public class Car {
         this.temporaryOwner = temporaryOwner;
     }
 
-    public boolean isRented(boolean b) {
-        return isRented;
-    }
-
-    public void setRented(boolean rented) {
-        isRented = rented;
-    }
 }

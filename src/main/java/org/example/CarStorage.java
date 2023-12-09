@@ -1,16 +1,15 @@
 package org.example;
 
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class CarStorage {
 
-    private static CarStorage instance;
     private List<Car> carStorageList = new ArrayList<>();
 
-    CarStorage(){
-        addCar(new Car(98765,"Audi","RS3", carStandard.A,null, false));
-    }
 
     public void setCarStorageList(List<Car> carStorageList) {
         this.carStorageList = carStorageList;
@@ -20,16 +19,10 @@ public class CarStorage {
         return carStorageList;
     }
 
-    public static CarStorage getInstance(){
-        if(instance == null){
-            instance = new CarStorage();
-        }
-        return instance;
-    }
 
     public void printCarList(){
         for (Car car : carStorageList) {
-            System.out.println(car.getBrand() + " " + car.getModel() + " " + car.VIN + " " + car.temporaryOwner + " " + car.isRented);
+            System.out.println(car.getBrand() + " " + car.getModel() + " " + car.VIN + " " + car.temporaryOwner);
         }
     }
 

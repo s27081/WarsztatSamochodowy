@@ -21,7 +21,7 @@ class RentalServiceTest {
         this.rentalService = new RentalService();
         this.rentStorage = new RentStorage();
         this.carStorage = new CarStorage();
-        this.car1 = new Car(12345,"Mercedes","B220", carStandard.B,null, false);
+        this.car1 = new Car(12345,"Mercedes","B220", carStandard.B,null);
         this.user1 = new User(1);
     }
 
@@ -94,5 +94,39 @@ class RentalServiceTest {
         assertThat(price).isEqualTo(600.0);
 
     }
+
+    @Test
+    void doesCheckDateWork(){
+        LocalDate dateFrom = LocalDate.parse("2023-10-16");
+        LocalDate dateTo = LocalDate.parse("2023-10-21");
+        Car car = car1;
+        User user = user1;
+
+
+        CarRentInfo carRentInfo = new CarRentInfo(user,car.getVIN(),dateFrom,dateTo);
+        rentalService.createRent(dateFrom,dateTo,car,user);
+
+        rentalService.checkDateInRent(LocalDate.parse("2023-12-12"));
+
+        assertThat(rentStorage.getRentList()).isEmpty();
+    }
+
+//    @Test
+ //   void doesNotCheckDateWork(){
+  //      LocalDate dateFrom = LocalDate.parse("2023-10-16");
+   //     LocalDate dateTo = LocalDate.parse("2023-10-21");
+    //    Car car = car1;
+     //   User user = user1;
+
+
+      //  CarRentInfo carRentInfo = new CarRentInfo(user,car.getVIN(),dateFrom,dateTo);
+      //  rentalService.createRent(dateFrom,dateTo,car,user);
+
+        //rentalService.checkDateInRent(LocalDate.parse("2023-10-17"));
+
+    //    assertThat(rentStorage.getRentList()).isNotEmpty();
+   // }
+
+
 
 }

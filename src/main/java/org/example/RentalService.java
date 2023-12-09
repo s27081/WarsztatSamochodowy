@@ -2,14 +2,36 @@ package org.example;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 
 public class RentalService {
 
+    private final RentStorage rentStorage;
+    private final CarStorage carStorage;
+
+    public RentalService(RentStorage rentStorage, CarStorage carStorage) {
+        this.rentStorage = rentStorage;
+        this.carStorage = carStorage;
+    }
     int baseOneDayRent = 100;
 
+
+    public boolean isAvailable(int vin){
+        return RentStorage.rentList.stream()
+                .noneMatch(v -> vin == v.getVIN()
+                );
+    }
+
+    public void checkDateInRent(LocalDate currentDate){
+        RentStorage.rentList
+                .forEach((c) -> {
+                    if(c.getDateTo().isAfter(currentDate)) {
+                        RentStorage.rentList.remove(c);
+                    }
+                });
+    }
     public CarRentInfo createRent(LocalDate dateFrom, LocalDate dateTo, Car car, User user) {
-        if (!car.isRented(false) && dateFrom.isBefore(dateTo)) {
-            car.setRented(true);
+        if (dateFrom.isBefore(dateTo) && isAvailable(car.getVIN())) {
             car.setTemporaryOwner(user);
             return new CarRentInfo(car.getTemporaryOwner(), car.getVIN(), dateFrom, dateTo);
         } else {
@@ -18,14 +40,15 @@ public class RentalService {
         return null;
     }
 
+
     public boolean carExist(int vin) {
-        return CarStorage.getInstance().getCarStorageList().stream().anyMatch(v -> v.getVIN() == vin);
+        return carStorage.getCarStorageList().stream().anyMatch(v -> v.getVIN() == vin);
     }
 
     public double estimatePrice(int vin, LocalDate dateFrom, LocalDate dateTo) {
         double price = baseOneDayRent;
         double daysBetween = ChronoUnit.DAYS.between(dateFrom, dateTo);
-        Car carPrice = CarStorage.getInstance().getCarStorageList().stream()
+        Car carPrice = carStorage.getCarStorageList().stream()
                 .filter(car -> car.getVIN() == vin)
                 .findAny()
                 .orElseThrow();
