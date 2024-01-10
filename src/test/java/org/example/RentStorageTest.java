@@ -16,19 +16,25 @@ public class RentStorageTest {
 
     @BeforeEach
     void setup() {
-        this.rentalService = new RentalService();
         this.rentStorage = new RentStorage();
         this.carStorage = new CarStorage();
+        this.rentalService = new RentalService(rentStorage,carStorage);
         this.car1 = new Car(12345,"Mercedes","B220", carStandard.B,null);
         this.user1 = new User(1);
     }
 
-   // @Test
-    //void doesRentAdd(){
-      //  CarRentInfo carRentInfoTest = new CarRentInfo(new User(1),23445, LocalDate.parse("2023-10-21"), LocalDate.parse("2023-10-22"));
-        //rentStorage.rentList.add(carRentInfoTest);
-        //assertThat(rentStorage.rentList.getLast()).isEqualTo(carRentInfoTest);
-    //}
+    @Test
+    void doesRentAdd(){
+        LocalDate dateFrom = LocalDate.parse("2023-10-16");
+        LocalDate dateTo = LocalDate.parse("2023-10-22");
+        Car car = car1;
+        User user = user1;
+
+        CarRentInfo carRentInfoTest = new CarRentInfo(user,car.getVIN(),dateFrom,dateTo);
+
+        rentStorage.addRent(carRentInfoTest);
+        assertThat(rentStorage.getRentList().get(rentStorage.getRentList().size()-1)).isEqualTo(carRentInfoTest);
+    }
 
 
 }

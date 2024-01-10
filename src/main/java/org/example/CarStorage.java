@@ -8,11 +8,11 @@ import java.util.List;
 @Component
 public class CarStorage {
 
-    private List<Car> carStorageList = new ArrayList<>();
+    static List<Car> carStorageList = new ArrayList<>();
 
 
     public void setCarStorageList(List<Car> carStorageList) {
-        this.carStorageList = carStorageList;
+        CarStorage.carStorageList = carStorageList;
     }
 
     public List<Car> getCarStorageList() {
@@ -28,5 +28,9 @@ public class CarStorage {
 
     public void addCar(Car car){
         carStorageList.add(car);
+    }
+
+    public void deleteCar(int vin) {
+        carStorageList.removeIf(car -> car.getVIN() == vin);
     }
 }

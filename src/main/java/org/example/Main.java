@@ -37,12 +37,12 @@ public class Main {
         carStorage.addCar(car2);
         carStorage.addCar(car3);
 
-        rentStorage.addRent(rentalService.createRent(LocalDate.parse("2023-10-16"), LocalDate.parse("2023-11-16"), car1, new User(32)));
+        rentStorage.addRent(rentalService.createRent(LocalDate.parse("2023-10-16"), LocalDate.parse("2023-11-17"), car1, new User(32)));
         rentStorage.printRentList();
-        rentStorage.addRent(rentalService.createRent(LocalDate.parse("2023-10-16"), LocalDate.parse("2023-11-16"), car1, new User(24)));
+        rentStorage.addRent(rentalService.createRent(LocalDate.parse("2023-10-16"), LocalDate.parse("2023-11-18"), car1, new User(24)));
         rentalService.carExist(12345);
         rentalService.carExist(323523423);
-        rentalService.estimatePrice(23445, LocalDate.parse("2023-10-16"), LocalDate.parse("2023-11-16"));
+        rentalService.estimatePrice(23445, LocalDate.parse("2023-10-16"), LocalDate.parse("2023-11-17"));
     }
 
 }

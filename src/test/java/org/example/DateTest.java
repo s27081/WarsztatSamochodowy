@@ -16,7 +16,7 @@ public class DateTest {
     private User user1;
     @BeforeEach
     void setup() {
-        this.rentalService = new RentalService();
+        this.rentalService = new RentalService(rentStorage,carStorage);
         this.rentStorage = new RentStorage();
         this.carStorage = new CarStorage();
         this.car1 = new Car(12345,"Mercedes","B220", carStandard.B,null);
@@ -28,11 +28,7 @@ public class DateTest {
     void shouldHaveOverLappingDates(LocalDate fromDate, LocalDate toDate){
         carStorage.addCar(car1);
 
-
-
     }
-
-
 
     public static Stream<Arguments> inputData(){
         return Stream.of(

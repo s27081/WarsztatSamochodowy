@@ -1,9 +1,12 @@
 package org.example;
 
+import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 import java.util.Optional;
-
+@Service
 public class RentalService {
 
     private final RentStorage rentStorage;
@@ -17,18 +20,17 @@ public class RentalService {
 
 
     public boolean isAvailable(int vin){
-        return RentStorage.rentList.stream()
+        if(rentStorage.getRentList().isEmpty()){
+            return true;
+        }
+        return rentStorage.getRentList().stream()
+                .filter(Objects::nonNull)
                 .noneMatch(v -> vin == v.getVIN()
                 );
     }
 
     public void checkDateInRent(LocalDate currentDate){
-        RentStorage.rentList
-                .forEach((c) -> {
-                    if(c.getDateTo().isAfter(currentDate)) {
-                        RentStorage.rentList.remove(c);
-                    }
-                });
+        rentStorage.getRentList().removeIf(d -> d != null && !currentDate.isBefore(d.getDateTo()));
     }
     public CarRentInfo createRent(LocalDate dateFrom, LocalDate dateTo, Car car, User user) {
         if (dateFrom.isBefore(dateTo) && isAvailable(car.getVIN())) {

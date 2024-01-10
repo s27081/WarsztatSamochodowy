@@ -2,6 +2,7 @@ package org.example;
 
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 @Component
@@ -18,8 +19,12 @@ public class RentStorage {
     }
 
     public void setRentList(List<CarRentInfo> rentList) {
-        this.rentList = rentList;
+        RentStorage.rentList = rentList;
     }
+
+    public void deleteRent(LocalDate currentDate) {
+        rentList.removeIf(d -> d.getDateTo().isAfter(currentDate));
+        }
 
     public void printRentList(){
         for (CarRentInfo rentInfo : rentList) {
