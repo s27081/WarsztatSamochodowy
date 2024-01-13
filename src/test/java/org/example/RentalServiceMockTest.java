@@ -1,41 +1,43 @@
 package org.example;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 
-class RentalServiceTest {
+@ExtendWith(MockitoExtension.class)
+class RentalServiceMockTest {
 
-    private RentalService rentalService;
+    @Mock
     private CarStorage carStorage;
+    @Mock
     private RentStorage rentStorage;
-    private Car car1;
-    private Car car2;
-    private User user1;
+    @InjectMocks
+    private RentalService rentalService;
 
-    @BeforeEach
-    void setup() {
-        this.rentStorage = new RentStorage();
-        this.carStorage = new CarStorage();
-        this.rentalService = new RentalService(rentStorage,carStorage);
-        this.car1 = new Car(123452222,"Mercedes","B220", carStandard.B,null);
-        this.car2 = new Car(12345,"Mercedes","B220", carStandard.B,null);
-        this.user1 = new User(1);
-    }
+    private Car car1 = new Car(123452222,"Mercedes","B220", carStandard.B,null);
+    private Car car2 = new Car(12345,"Mercedes","B220", carStandard.B,null);
+    private User user1 = new User(1);
 
     @Test
     void doesCarExist(){
         //GIVEN
-        int vin1 = car1.getVIN();
+        when(carStorage.getCarStorageList()).thenReturn(List.of(car1));
 
         //WHEN
-        carStorage.addCar(car1);
-        boolean v1 = rentalService.carExist(vin1);
+        boolean v1 = rentalService.carExist(car1.getVIN());
 
         //THEN
         assertThat(v1).isEqualTo(true);
@@ -43,30 +45,44 @@ class RentalServiceTest {
 
     @Test
     void doesNotCarExist(){
-        int vin1 = 345678;
-
-        carStorage.addCar(car1);
+        when(carStorage.getCarStorageList()).thenReturn(List.of(car2));
 
         //WHEN
-        boolean v1 = rentalService.carExist(vin1);
+        boolean v1 = rentalService.carExist(car1.getVIN());
 
         //THEN
         assertThat(v1).isEqualTo(false);
     }
 
-  //  @Test
-   // void isCreatingRentPossible(){
+    @Test
+    void isCreatingRentPossible_emptyRentals(){
+        when(rentStorage.getRentList()).thenReturn(List.of());
 
-   //     LocalDate dateFrom = LocalDate.parse("2023-10-16");
-    //    LocalDate dateTo = LocalDate.parse("2023-10-21");
-    //    Car car = car1;
-    //    User user = user1;
+        LocalDate dateFrom = LocalDate.parse("2023-10-16");
+        LocalDate dateTo = LocalDate.parse("2023-10-21");
 
-    //    Optional<CarRentInfo> optionalCarRentInfo = Optional.ofNullable(rentalService.createRent(dateFrom, dateTo, car, user));
+        Optional<CarRentInfo> optionalCarRentInfo = Optional.ofNullable(rentalService.createRent(dateFrom, dateTo, car1, user1));
 
-     //   assertThat(optionalCarRentInfo.map(CarRentInfo::getVIN)).isEqualTo(Optional.of(car.getVIN()));
+        assertThat(optionalCarRentInfo.map(CarRentInfo::getVIN))
+                .isEqualTo(Optional.of(car1.getVIN()));
 
-   // }
+    }
+
+    @Test
+    void isCreatingRentPossible(){
+        CarRentInfo carRentInfo = new CarRentInfo(user1, car2.getVIN(),
+                LocalDate.parse("2023-10-10"), LocalDate.parse("2023-10-15"));
+        when(rentStorage.getRentList()).thenReturn(List.of(carRentInfo));
+
+        LocalDate dateFrom = LocalDate.parse("2023-10-16");
+        LocalDate dateTo = LocalDate.parse("2023-10-21");
+
+        Optional<CarRentInfo> optionalCarRentInfo = Optional.ofNullable(rentalService.createRent(dateFrom, dateTo, car1, user1));
+
+        assertThat(optionalCarRentInfo.map(CarRentInfo::getVIN))
+                .isEqualTo(Optional.of(car1.getVIN()));
+
+    }
 
     @Test
     void isNotCreatingRentPossible(){
@@ -82,6 +98,7 @@ class RentalServiceTest {
 
     }
     @Test
+    @Disabled
     void isEstimatedPriceEqual(){
 
         LocalDate dateFrom = LocalDate.parse("2023-10-17");

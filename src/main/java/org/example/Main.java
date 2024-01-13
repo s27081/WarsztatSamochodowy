@@ -19,7 +19,7 @@ public class Main {
         this.rentalService = rentalService;
         this.rentStorage = rentStorage;
 
-        initProcess();
+//        initProcess();
     }
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
